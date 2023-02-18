@@ -13,28 +13,28 @@ const deploy: DeployFunction = async function (
     from: deployer,
     args: [],
     log: true,
-    deterministicDeployment: true,
+    // deterministicDeployment: true,
   });
 
   await deploy("MultiSend", {
     from: deployer,
     args: [],
     log: true,
-    deterministicDeployment: true,
+    // deterministicDeployment: true,
   });
 
   await deploy("MultiSendCallOnly", {
     from: deployer,
     args: [],
     log: true,
-    deterministicDeployment: true,
+    // deterministicDeployment: true,
   });
 
   await deploy("SignMessageLib", {
     from: deployer,
     args: [],
     log: true,
-    deterministicDeployment: true,
+    // deterministicDeployment: true,
   });
 };
 
