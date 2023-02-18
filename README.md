@@ -5,6 +5,13 @@ Gnosis Safe Contracts
 [![Build Status](https://github.com/gnosis/safe-contracts/workflows/safe-contracts/badge.svg?branch=development)](https://github.com/gnosis/safe-contracts/actions)
 [![Coverage Status](https://coveralls.io/repos/github/gnosis/safe-contracts/badge.svg?branch=development)](https://coveralls.io/github/gnosis/safe-contracts)
 
+Zetachain Deployments
+-----
+
+GnosisSafe: [0xf2d48C7F6ff69b487f277BC011D853577c3880eb](https://explorer.zetachain.com/address/0xf2d48C7F6ff69b487f277BC011D853577c3880eb)
+
+GnosisSafeL2: [0x161037A0585428aeE80EF0d821B8d2aF1028158f](https://explorer.zetachain.com/address/0x161037A0585428aeE80EF0d821B8d2aF1028158f)
+
 Usage
 -----
 ### Install requirements with yarn:
