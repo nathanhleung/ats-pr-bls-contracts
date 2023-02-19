@@ -25,15 +25,27 @@ contract CompatibilityFallbackHandler is DefaultCallbackHandler, ISignatureValid
      * @param _signature Signature byte array associated with _data
      * @return a bool upon valid or invalid signature with corresponding _data
      */
-    function isValidSignature(bytes calldata _data, bytes calldata _signature) public view override returns (bytes4) {
+    function isValidSignature(bytes memory _data, bytes memory _signature) public view override returns (bytes4) {
         // Caller should be a Safe
         GnosisSafe safe = GnosisSafe(payable(msg.sender));
-        bytes32 messageHash = getMessageHashForSafe(safe, _data);
-        if (_signature.length == 0) {
-            require(safe.signedMessages(messageHash) != 0, "Hash not approved");
-        } else {
-            safe.checkSignatures(messageHash, _data, _signature);
-        }
+
+        require(_data.length == 0, "This safe only accepts ZK proof signatures");
+
+        // TODO(nathanhleung) Check verifier params
+        (uint[2] memory a, uint[2][2] memory b, uint[2] memory c, uint[2] memory input) = abi.decode(
+            _signature, (
+                uint[2],
+                uint[2][2],
+                uint[2],
+                uint[2]
+            )
+        );
+
+        bool zkSignatureProofVerified = safe.getZkSignatureVerifier().verifyProof(
+            a, b, c, input
+        );
+
+        require(zkSignatureProofVerified, "ZK proof not verified");
         return EIP1271_MAGIC_VALUE;
     }
 
