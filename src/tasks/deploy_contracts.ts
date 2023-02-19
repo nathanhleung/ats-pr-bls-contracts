@@ -5,8 +5,8 @@ import { task } from "hardhat/config";
 task("deploy-contracts", "Deploys and verifies Safe contracts").setAction(
   async (_, hre) => {
     await hre.run("deploy");
-    await hre.run("local-verify");
-    // Disable Etherscan verification
+    // await hre.run("local-verify");
+    // Disable Etherscan verification if no API key
     if (!!process.env.ETHERSCAN_API_KEY) {
       await hre.run("etherscan-verify", {
         forceLicense: true,

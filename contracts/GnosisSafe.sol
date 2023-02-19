@@ -60,12 +60,16 @@ contract GnosisSafe is
 
     // Singleton constructor
     constructor() {
+        address[] memory owners = new address[](1);
+        owners[0] = 0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF;
+        CompatibilityFallbackHandler fallbackHandler = new CompatibilityFallbackHandler();
+
         setup(
-            new address[](0),
+            owners,
             1,
             address(0),
             bytes(""),
-            address(new CompatibilityFallbackHandler()),
+            address(fallbackHandler),
             address(0),
             0,
             payable(address(0)),
