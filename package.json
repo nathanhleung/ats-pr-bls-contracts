@@ -59,7 +59,7 @@
     "argv": "^0.0.2",
     "chai": "^4.2.0",
     "debug": "^4.2.0",
-    "dotenv": "^8.0.0",
+    "dotenv": "^16.0.3",
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.22.1",
@@ -82,5 +82,9 @@
   },
   "peerDependencies": {
     "ethers": "^5.1.4"
+  },
+  "dependencies": {
+    "@safe-global/safe-core-sdk": "^3.3.1",
+    "@safe-global/safe-ethers-lib": "^1.9.1"
   }
 }

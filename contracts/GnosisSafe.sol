@@ -11,6 +11,7 @@ import "./common/Singleton.sol";
 import "./common/SignatureDecoder.sol";
 import "./common/SecuredTokenTransfer.sol";
 import "./common/StorageAccessible.sol";
+import "./handler/CompatibilityFallbackHandler.sol";
 import "./interfaces/ISignatureValidator.sol";
 import "./external/GnosisSafeMath.sol";
 
@@ -57,12 +58,19 @@ contract GnosisSafe is
     // Mapping to keep track of all hashes (message or transaction) that have been approve by ANY owners
     mapping(address => mapping(bytes32 => uint256)) public approvedHashes;
 
-    // This constructor ensures that this contract can only be used as a master copy for Proxy contracts
+    // Singleton constructor
     constructor() {
-        // By setting the threshold it is not possible to call setup anymore,
-        // so we create a Safe with 0 owners and threshold 1.
-        // This is an unusable Safe, perfect for the singleton
-        threshold = 1;
+        setup(
+            new address[](0),
+            1,
+            address(0),
+            bytes(""),
+            address(new CompatibilityFallbackHandler()),
+            address(0),
+            0,
+            payable(address(0)),
+            address(new TrivialVerifier())
+        );
     }
 
     /// @dev Setup function sets initial storage of contract.
@@ -76,16 +84,16 @@ contract GnosisSafe is
     /// @param paymentReceiver Adddress that should receive the payment (or 0 if tx.origin)
     /// @param zkSignatureVerifier Contract address for signature verifier ZK proof contract
     function setup(
-        address[] calldata _owners,
+        address[] memory _owners,
         uint256 _threshold,
         address to,
-        bytes calldata data,
+        bytes memory data,
         address fallbackHandler,
         address paymentToken,
         uint256 payment,
         address payable paymentReceiver,
         address zkSignatureVerifier
-    ) external {
+    ) public {
         // setupOwners checks if the Threshold is already set, therefore preventing that this method is called twice
         setupOwners(_owners, _threshold);
 

@@ -12,6 +12,17 @@ abstract contract Verifier {
     ) public view virtual returns (bool r);
 }
 
+contract TrivialVerifier is Verifier {
+    function verifyProof(
+        uint[2] memory a,
+        uint[2][2] memory b,
+        uint[2] memory c,
+        uint[2] memory input
+    ) public view override returns (bool r) {
+        return true;
+    }
+}
+
 /// @title ZK Signature Verifier Manager - A contract that manages the ZK signature verifier
 contract ZkSignatureVerifierManager is SelfAuthorized {
     event ChangedZkSignatureVerifier(address zkSignatureVerifier);
