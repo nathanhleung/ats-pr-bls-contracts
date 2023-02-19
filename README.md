@@ -4,9 +4,13 @@
 [![Build Status](https://github.com/gnosis/safe-contracts/workflows/safe-contracts/badge.svg?branch=development)](https://github.com/gnosis/safe-contracts/actions)
 [![Coverage Status](https://coveralls.io/repos/github/gnosis/safe-contracts/badge.svg?branch=development)](https://coveralls.io/github/gnosis/safe-contracts)
 
-## Zetachain Deployments
+## Deployments
 
-GnosisSafeL2: [0x7FF11F28569e4041E75915252F5b9dD4aAdd1812](https://explorer.zetachain.com/address/0x7FF11F28569e4041E75915252F5b9dD4aAdd1812)
+Zetachain GnosisSafeL2: [0x65BbB37C4f90B96e8780c585C4bb9Bf9c6F20b0e](https://explorer.zetachain.com/address/0x7FF11F28569e4041E75915252F5b9dD4aAdd1812)
+
+Goerli GnosisSafeL2: [0xf2d48C7F6ff69b487f277BC011D853577c3880eb](https://goerli.etherscan.io/address/0xf2d48C7F6ff69b487f277BC011D853577c3880eb)
+
+Goerli GnosisSafeZetachainClient: [0x161037A0585428aeE80EF0d821B8d2aF1028158f](https://goerli.etherscan.io/address/0x161037A0585428aeE80EF0d821B8d2aF1028158f)
 
 ## Usage
 

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity >=0.7.0 <0.9.0;
 
+
 import "./base/ModuleManager.sol";
 import "./base/OwnerManager.sol";
 import "./base/FallbackManager.sol";
@@ -13,9 +14,11 @@ import "./common/SecuredTokenTransfer.sol";
 import "./common/StorageAccessible.sol";
 import "./handler/CompatibilityFallbackHandler.sol";
 import "./interfaces/ISignatureValidator.sol";
+import "./interfaces/zContract.sol";
 import "./external/GnosisSafeMath.sol";
 
 /// @title Gnosis Safe - A multisignature wallet with support for confirmations using signed messages based on ERC191.
+// Cross-chain modifications for use with Zetachain
 /// @author Stefan George - <stefan@gnosis.io>
 /// @author Richard Meissner - <richard@gnosis.io>
 contract GnosisSafe is
@@ -29,7 +32,8 @@ contract GnosisSafe is
     FallbackManager,
     ZkSignatureVerifierManager,
     StorageAccessible,
-    GuardManager
+    GuardManager,
+    zContract
 {
     using GnosisSafeMath for uint256;
 
@@ -363,5 +367,55 @@ contract GnosisSafe is
         uint256 _nonce
     ) public view returns (bytes32) {
         return keccak256(encodeTransactionData(to, value, data, operation, safeTxGas, baseGas, gasPrice, gasToken, refundReceiver, _nonce));
+    }
+
+    // Allows cross-chain calls to execTransaction
+    function onCrossChainCall(address zrc20, uint256 amount, bytes calldata message) external override {
+        (
+            address to,
+            uint256 value,
+            bytes memory data,
+            uint operationUint,
+            uint256 safeTxGas,
+            uint256 baseGas,
+            uint256 gasPrice,
+            address gasToken,
+            address payable refundReceiver,
+            bytes memory signatures
+        ) = abi.decode(message, (
+            address,
+            uint256,
+            bytes,
+            uint,
+            uint256,
+            uint256,
+            uint256,
+            address,
+            address,
+            bytes)
+        );
+
+        Enum.Operation operation;
+        if (operationUint == 0) {
+            operation = Enum.Operation.Call;
+        } else if (operationUint == 0) {
+            operation = Enum.Operation.DelegateCall;
+        } else {
+            revert("Invalid operation");
+        }
+
+        execTransaction(
+            to,
+            value,
+            // Slice off address and value
+            message[64:],
+            operation,
+            safeTxGas,
+            baseGas,
+            gasPrice,
+            gasToken,
+            refundReceiver,
+            signatures
+        );
     }
 }

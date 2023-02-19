@@ -17,7 +17,16 @@ const argv = yargs
 
 // Load environment variables.
 dotenv.config();
-const { NODE_URL, INFURA_KEY, MNEMONIC, ETHERSCAN_API_KEY, PK, SOLIDITY_VERSION, SOLIDITY_SETTINGS, CUSTOM_DETERMINISTIC_DEPLOYMENT } = process.env;
+const {
+  NODE_URL,
+  INFURA_KEY,
+  MNEMONIC,
+  ETHERSCAN_API_KEY,
+  PK,
+  SOLIDITY_VERSION,
+  SOLIDITY_SETTINGS,
+  CUSTOM_DETERMINISTIC_DEPLOYMENT,
+} = process.env;
 
 const DEFAULT_MNEMONIC =
   "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat";
@@ -31,31 +40,40 @@ if (PK) {
   };
 }
 
-if (["mainnet", "rinkeby", "kovan", "goerli"].includes(argv.network) && INFURA_KEY === undefined) {
+if (
+  ["mainnet", "rinkeby", "kovan", "goerli"].includes(argv.network) &&
+  INFURA_KEY === undefined
+) {
   throw new Error(
-    `Could not find Infura key in env, unable to connect to network ${argv.network}`,
+    `Could not find Infura key in env, unable to connect to network ${argv.network}`
   );
 }
 
-import "./src/tasks/local_verify"
-import "./src/tasks/deploy_contracts"
-import "./src/tasks/show_codesize"
+import "./src/tasks/local_verify";
+import "./src/tasks/deploy_contracts";
+import "./src/tasks/show_codesize";
 import { BigNumber } from "@ethersproject/bignumber";
 
-const primarySolidityVersion = SOLIDITY_VERSION || "0.7.6"
-const soliditySettings = !!SOLIDITY_SETTINGS ? JSON.parse(SOLIDITY_SETTINGS) : undefined
+const primarySolidityVersion = SOLIDITY_VERSION || "0.7.6";
+const soliditySettings = !!SOLIDITY_SETTINGS
+  ? JSON.parse(SOLIDITY_SETTINGS)
+  : undefined;
 
-const deterministicDeployment = CUSTOM_DETERMINISTIC_DEPLOYMENT == "true" ?
-  (network: string) => {
-    const info = getSingletonFactoryInfo(parseInt(network))
-    if (!info) return undefined
-    return {
-      factory: info.address,
-      deployer: info.signerAddress,
-      funding: BigNumber.from(info.gasLimit).mul(BigNumber.from(info.gasPrice)).toString(),
-      signedTx: info.transaction
-    }
-  } : undefined
+const deterministicDeployment =
+  CUSTOM_DETERMINISTIC_DEPLOYMENT == "true"
+    ? (network: string) => {
+        const info = getSingletonFactoryInfo(parseInt(network));
+        if (!info) return undefined;
+        return {
+          factory: info.address,
+          deployer: info.signerAddress,
+          funding: BigNumber.from(info.gasLimit)
+            .mul(BigNumber.from(info.gasPrice))
+            .toString(),
+          signedTx: info.transaction,
+        };
+      }
+    : undefined;
 
 const userConfig: HardhatUserConfig = {
   paths: {
@@ -67,15 +85,16 @@ const userConfig: HardhatUserConfig = {
   solidity: {
     compilers: [
       { version: primarySolidityVersion, settings: soliditySettings },
+      { version: "0.7.6" },
       { version: "0.6.12" },
       { version: "0.5.17" },
-    ]
+    ],
   },
   networks: {
     hardhat: {
       allowUnlimitedContractSize: true,
       blockGasLimit: 100000000,
-      gas: 100000000
+      gas: 100000000,
     },
     mainnet: {
       ...sharedNetworkConfig,
@@ -120,7 +139,7 @@ const userConfig: HardhatUserConfig = {
     fantomTestnet: {
       ...sharedNetworkConfig,
       url: `https://rpc.testnet.fantom.network/`,
-    }
+    },
   },
   deterministicDeployment,
   namedAccounts: {
@@ -137,6 +156,6 @@ if (NODE_URL) {
   userConfig.networks!!.custom = {
     ...sharedNetworkConfig,
     url: NODE_URL,
-  }
+  };
 }
-export default userConfig
+export default userConfig;
