@@ -6,7 +6,7 @@
 
 ## Zetachain Deployments
 
-GnosisSafeL2: [0x941B3D198D45c9dB12144EEf86B4591aeB434B64](https://explorer.zetachain.com/address/0x941B3D198D45c9dB12144EEf86B4591aeB434B64)
+GnosisSafeL2: [0x7FF11F28569e4041E75915252F5b9dD4aAdd1812](https://explorer.zetachain.com/address/0x7FF11F28569e4041E75915252F5b9dD4aAdd1812)
 
 ## Usage
 
