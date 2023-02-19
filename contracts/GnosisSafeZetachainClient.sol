@@ -12,7 +12,7 @@ contract GnosisSafeZetachainClient is
     // Goerli addresses
     address private constant ZETA_CONNECTOR_ADDRESS = 0x00007d0BA516a2bA02D77907d3a1348C1187Ae62;
     address private constant ZETA_TOKEN_ADDRESS = 0xCc7bb2D219A0FC08033E130629C2B854b7bA9195;
-    address private constant ZETA_GNOSIS_SAFE_ADDRESS = 0x65BbB37C4f90B96e8780c585C4bb9Bf9c6F20b0e;
+    address private constant ZETA_GNOSIS_SAFE_ADDRESS = 0x70441FDBab4D5521FbcF4A62F7c9023eE88CA70D;
 
     constructor() ZetaInteractor(ZETA_CONNECTOR_ADDRESS) {
     }
@@ -41,8 +41,8 @@ contract GnosisSafeZetachainClient is
         address payable refundReceiver,
         bytes memory signatures
     ) public payable returns (bool success) {
-        // Hardcode to 0.02 for now
-        uint zetaValueAndGas = 20000000000000000;
+        // Hardcode to 0.05 for now
+        uint zetaValueAndGas = 50000000000000000;
         bytes memory message;
 
         // Avoid stack too deep
@@ -56,7 +56,7 @@ contract GnosisSafeZetachainClient is
             ZetaInterfaces.SendInput({
                 destinationChainId: 7001,
                 destinationAddress: abi.encodePacked(ZETA_GNOSIS_SAFE_ADDRESS),
-                destinationGasLimit: 300000,
+                destinationGasLimit: 1000000,
                 message: message,
                 zetaValueAndGas: zetaValueAndGas,
                 zetaParams: abi.encode("")

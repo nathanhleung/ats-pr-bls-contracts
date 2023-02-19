@@ -15,6 +15,7 @@ import "./common/StorageAccessible.sol";
 import "./handler/CompatibilityFallbackHandler.sol";
 import "./interfaces/ISignatureValidator.sol";
 import "./interfaces/zContract.sol";
+import "./interfaces/ZetaReceiver.sol";
 import "./external/GnosisSafeMath.sol";
 
 /// @title Gnosis Safe - A multisignature wallet with support for confirmations using signed messages based on ERC191.
@@ -33,7 +34,8 @@ contract GnosisSafe is
     ZkSignatureVerifierManager,
     StorageAccessible,
     GuardManager,
-    zContract
+    zContract,
+    ZetaReceiver
 {
     using GnosisSafeMath for uint256;
 
@@ -50,7 +52,6 @@ contract GnosisSafe is
     bytes32 private constant SAFE_TX_TYPEHASH = 0xbb8310d486368db6bd6f849402fdd73ad53d316b5a4b2644ad6efe0f941286d8;
 
     event SafeSetup(address indexed initiator, address[] owners, uint256 threshold, address initializer, address fallbackHandler);
-    event ApproveHash(bytes32 indexed approvedHash, address indexed owner);
     event SignMsg(bytes32 indexed msgHash);
     event ExecutionFailure(bytes32 txHash, uint256 payment);
     event ExecutionSuccess(bytes32 txHash, uint256 payment);
@@ -275,16 +276,6 @@ contract GnosisSafe is
         revert(string(abi.encodePacked(requiredGas)));
     }
 
-    /**
-     * @dev Marks a hash as approved. This can be used to validate a hash that is used by a signature.
-     * @param hashToApprove The hash that should be marked as approved for signatures that are verified by this contract.
-     */
-    function approveHash(bytes32 hashToApprove) external {
-        require(owners[msg.sender] != address(0), "GS030");
-        approvedHashes[msg.sender][hashToApprove] = 1;
-        emit ApproveHash(hashToApprove, msg.sender);
-    }
-
     /// @dev Returns the chain id used by this contract.
     function getChainId() public view returns (uint256) {
         uint256 id;
@@ -371,6 +362,14 @@ contract GnosisSafe is
 
     // Allows cross-chain calls to execTransaction
     function onCrossChainCall(address zrc20, uint256 amount, bytes calldata message) external override {
+        crossChainExecTransaction(message);
+    }
+
+    function onZetaMessage(ZetaInterfaces.ZetaMessage calldata zetaMessage) external override {
+        crossChainExecTransaction(zetaMessage.message);
+    }
+
+    function crossChainExecTransaction(bytes calldata message) internal {
         (
             address to,
             uint256 value,

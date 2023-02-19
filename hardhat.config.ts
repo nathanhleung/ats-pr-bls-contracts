@@ -156,6 +156,7 @@ if (NODE_URL) {
   userConfig.networks!!.custom = {
     ...sharedNetworkConfig,
     url: NODE_URL,
+    allowUnlimitedContractSize: true,
   };
 }
 export default userConfig;
