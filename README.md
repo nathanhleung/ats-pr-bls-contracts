@@ -1,6 +1,6 @@
 # Proactive Refresh Contracts
 
-Smart contracts (fork of Gnosis Safe) submitted as part of the [Proactive Refresh](https://devpost.com/software/proactive-refresh) project for [TreeHacks 2023](https://www.treehacks.com/).
+Smart contracts submitted as part of the [Proactive Refresh](https://devpost.com/software/proactive-refresh) project for [TreeHacks 2023](https://www.treehacks.com/). Contracts are mostly based on Gnosis Safe but have modified signature validation logic and incorporate some Zetachain corss-chain features.
 
 See https://github.com/lyronctk/proactive-refresh for more details.
 
