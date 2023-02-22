@@ -1,8 +1,8 @@
-# Gnosis Safe Contracts
+# Proactive Refresh Contracts
 
-[![npm version](https://badge.fury.io/js/%40gnosis.pm%2Fsafe-contracts.svg)](https://badge.fury.io/js/%40gnosis.pm%2Fsafe-contracts)
-[![Build Status](https://github.com/gnosis/safe-contracts/workflows/safe-contracts/badge.svg?branch=development)](https://github.com/gnosis/safe-contracts/actions)
-[![Coverage Status](https://coveralls.io/repos/github/gnosis/safe-contracts/badge.svg?branch=development)](https://coveralls.io/github/gnosis/safe-contracts)
+Smart contracts (fork of Gnosis Safe) submitted as part of the [Proactive Refresh](https://devpost.com/software/proactive-refresh) project submitted to [TreeHacks 2023](https://www.treehacks.com/).
+
+See https://github.com/lyronctk/proactive-refresh for more details.
 
 ## Deployments
 
@@ -97,11 +97,7 @@ yarn hardhat --network <network> etherscan-verify
 
 ## Audits/ Formal Verification
 
-- [for Version 1.3.0 by G0 Group](docs/audit_1_3_0.md)
-- [for Version 1.2.0 by G0 Group](docs/audit_1_2_0.md)
-- [for Version 1.1.1 by G0 Group](docs/audit_1_1_1.md)
-- [for Version 1.0.0 by Runtime Verification](docs/rv_1_0_0.md)
-- [for Version 0.0.1 by Alexey Akhunov](docs/alexey_audit.md)
+This fork is unaudited; use at yur own risk.
 
 ## Security and Liability
 
